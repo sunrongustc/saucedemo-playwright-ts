@@ -12,9 +12,9 @@ test('Saucedemo Add To Cart', async ({ page }) => {
 
   await loginPage.navigateTo();
   await loginPage.login(username, password);
-  await loginPage.expectInventoryLoaded();
-
+  
   const inventoryPage = new InventoryPage(page);
+  await inventoryPage.expectInventoryLoaded();
   const item1 = "Sauce Labs Bolt T-Shirt"
   await inventoryPage.addItemToCart(item1);
   await inventoryPage.openCart()

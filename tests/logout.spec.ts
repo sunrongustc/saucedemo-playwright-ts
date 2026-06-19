@@ -3,7 +3,7 @@ import { LoginPage } from '../pages/LoginPage';
 import { USERS } from '../data/users';
 import { InventoryPage } from '../pages/InventoryPage';
 
-test('Saucedemo Login', async ({ page }) => {
+test('Saucedemo Logout', async ({ page }) => {
 
   const loginPage = new LoginPage(page);
   const username = USERS.standard.username;
@@ -13,6 +13,8 @@ test('Saucedemo Login', async ({ page }) => {
   await loginPage.login(username, password);
   const inventoryPage = new InventoryPage(page);
   await inventoryPage.expectInventoryLoaded();
+  await inventoryPage.logout();
+  await loginPage.expectLoaded();
 
 });
 

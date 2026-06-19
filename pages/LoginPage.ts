@@ -23,11 +23,11 @@ export class LoginPage {
         await this.loginButton.click();
     }
 
-    async expectInventoryLoaded() {
-        await expect(this.page.locator('.inventory_container')).toBeVisible();
-    }
-
     async expectUserLocked() {
         await expect(this.page.locator('[data-test="error"]')).toContainText("locked out");
+    }
+
+    async expectLoaded() {
+        await expect(this.loginButton).toBeVisible();
     }
 }

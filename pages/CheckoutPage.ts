@@ -6,6 +6,7 @@ export class CheckoutPage {
     private readonly zipCodeInput: Locator;
     private readonly continueButton: Locator;
     private readonly finishButton: Locator;
+    private readonly errorMessage: Locator;
 
     private readonly page: Page;
 
@@ -15,6 +16,7 @@ export class CheckoutPage {
         this.zipCodeInput = page.getByRole('textbox', { name: 'Zip/Postal Code' });
         this.continueButton = page.locator('input[type="submit"]')
         this.finishButton = page.getByRole('button', { name: 'Finish' })
+        this.errorMessage = page.locator('.error-message-container.error');
         this.page = page;
     }
 
@@ -25,16 +27,24 @@ export class CheckoutPage {
         await this.continueButton.click();
     }
 
-    async expectCheckoutOverviewItems(itemName: string) {
-        await expect(this.page.locator('.cart_item', { hasText: itemName })).toBeVisible();
-    }
-
     async clickFinish() {
         await this.finishButton.click();
     }
 
     async expectSuccessful() {
         await expect(this.page.getByRole('heading', { name: 'Thank you for your order!' })).toBeVisible();
+    }
+
+    async expectFirstNameRequiredError() {
+        await expect(this.errorMessage).toContainText("First Name is required");
+    }
+
+    async expectLastNameRequiredError() {
+        await expect(this.errorMessage).toContainText("Last Name is required");
+    }
+
+    async expectZipCodeRequiredError() {
+        await expect(this.errorMessage).toContainText("Postal Code is required");
     }
 
 }
