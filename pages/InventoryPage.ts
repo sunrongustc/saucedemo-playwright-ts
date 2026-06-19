@@ -11,15 +11,11 @@ export class InventoryPage {
     }
 
     async addItemToCart(itemName: string) {
-        await this.page.locator(".inventory_item",{hasText:itemName})
+        await this.page.locator(".inventory_item", { hasText: itemName })
             .getByRole("button", { name: "Add to cart" }).click();
     }
 
     async openCart() {
         await this.cartButton.click();
-    }
-
-    async expectItemInCart(itemName: string) {
-        await expect(this.page.locator('.cart_item', { hasText: itemName })).toBeVisible();
     }
 }
