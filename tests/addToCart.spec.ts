@@ -2,12 +2,13 @@ import { test, expect } from '@playwright/test';
 import { LoginPage } from '../pages/LoginPage';
 import { InventoryPage } from '../pages/InventoryPage';
 import { CartPage } from '../pages/CartPage';
+import { USERS } from '../data/users';
 
 test('Saucedemo Add To Cart', async ({ page }) => {
 
   const loginPage = new LoginPage(page);
-  const username = "standard_user";
-  const password = "secret_sauce";
+  const username = USERS.standard.username;
+  const password = USERS.standard.password;
 
   await loginPage.navigateTo();
   await loginPage.login(username, password);
