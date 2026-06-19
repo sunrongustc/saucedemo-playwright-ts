@@ -16,4 +16,12 @@ export class CartPage {
     async clickCheckout() {
         await this.checkoutButton.click();
     }
+
+    async removeItemFromCart(itemName: string) {
+        await this.page.locator('.cart_item', { hasText: itemName }).getByRole('button', { name: 'Remove' }).click();
+    }
+
+    async expectItemRemoved(itemName: string) {
+        await expect(this.page.locator('.cart_item', { hasText: itemName })).toHaveCount(0);
+    }
 }
