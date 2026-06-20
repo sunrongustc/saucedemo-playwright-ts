@@ -1,49 +1,31 @@
-import { test, expect } from '@playwright/test';
-import { LoginPage } from '../pages/LoginPage';
-import { InventoryPage } from '../pages/InventoryPage';
+import { test, expect } from "../fixtures/inventory.fixture";
 import { CartPage } from '../pages/CartPage';
-import { USERS } from '../data/users';
 import { ITEMS } from '../data/items';
 
-let loginPage: LoginPage;
-let inventoryPage: InventoryPage;
+test('One Item Added To Cart', async ({ inventoryPage, page }) => {
+    const item1 = "Sauce Labs Bolt T-Shirt"
+    await inventoryPage.addItemToCart(item1);
+    await inventoryPage.openCart()
 
-test.beforeEach(async ({ page }) => {
-  loginPage = new LoginPage(page);
-  const username = USERS.standard.username;
-  const password = USERS.standard.password;
-
-  await loginPage.navigateTo();
-  await loginPage.login(username, password);
-
-  inventoryPage = new InventoryPage(page);
-  await inventoryPage.expectInventoryLoaded();
-})
-
-test('One Item Added To Cart', async ({ page }) => {
-  const item1 = "Sauce Labs Bolt T-Shirt"
-  await inventoryPage.addItemToCart(item1);
-  await inventoryPage.openCart()
-    
-  const cartPage = new CartPage(page);
-  await cartPage.expectItemInCart(item1);
+    const cartPage = new CartPage(page);
+    await cartPage.expectItemInCart(item1);
 });
 
 
-test('One Item Removed From Cart', async ({ page }) => {
-  const item1 = "Sauce Labs Bolt T-Shirt"
-  await inventoryPage.addItemToCart(item1);
-  await inventoryPage.openCart()
-    
-  const cartPage = new CartPage(page);
-  await cartPage.expectItemInCart(item1);
-  await cartPage.removeItemFromCart(item1);
-  await cartPage.expectItemRemoved(item1);
+test('One Item Removed From Cart', async ({ inventoryPage, page }) => {
+    const item1 = "Sauce Labs Bolt T-Shirt"
+    await inventoryPage.addItemToCart(item1);
+    await inventoryPage.openCart()
+
+    const cartPage = new CartPage(page);
+    await cartPage.expectItemInCart(item1);
+    await cartPage.removeItemFromCart(item1);
+    await cartPage.expectItemRemoved(item1);
 
 });
 
 
-test('Multiple Items Cart Management Flow', async ({ page }) => {
+test('Multiple Items Cart Management Flow', async ({ inventoryPage, page }) => {
     for (const item of Object.values(ITEMS)) {
         await inventoryPage.addItemToCart(item);
     }
