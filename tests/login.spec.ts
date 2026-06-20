@@ -3,7 +3,7 @@ import { LoginPage } from '../pages/LoginPage';
 import { USERS } from '../data/users';
 import { InventoryPage } from '../pages/InventoryPage';
 
-test('Saucedemo Login', async ({ page }) => {
+test('Standard User Login', async ({ page }) => {
 
   const loginPage = new LoginPage(page);
   const username = USERS.standard.username;
@@ -16,4 +16,14 @@ test('Saucedemo Login', async ({ page }) => {
 
 });
 
+test('Locked User Login', async ({ page }) => {
 
+  const loginPage = new LoginPage(page);
+  const username = USERS.locked.username;
+  const password = USERS.locked.password;
+
+  await loginPage.navigateTo();
+  await loginPage.login(username, password);
+  await loginPage.expectUserLocked();
+
+});

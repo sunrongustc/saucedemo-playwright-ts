@@ -3,19 +3,24 @@ import { LoginPage } from '../pages/LoginPage';
 import { USERS } from '../data/users';
 import { InventoryPage } from '../pages/InventoryPage';
 
-test('Saucedemo Logout', async ({ page }) => {
+let loginPage: LoginPage;
+let inventoryPage: InventoryPage;
 
-  const loginPage = new LoginPage(page);
+test.beforeEach(async ({ page }) => {
+  loginPage = new LoginPage(page);
   const username = USERS.standard.username;
   const password = USERS.standard.password;
 
   await loginPage.navigateTo();
   await loginPage.login(username, password);
-  const inventoryPage = new InventoryPage(page);
+
+  inventoryPage = new InventoryPage(page);
   await inventoryPage.expectInventoryLoaded();
+})
+
+test('Logout', async ({ page }) => {
   await inventoryPage.logout();
   await loginPage.expectLoaded();
-
 });
 
 

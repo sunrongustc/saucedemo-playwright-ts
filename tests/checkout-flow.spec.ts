@@ -5,29 +5,37 @@ import { CheckoutPage } from '../pages/CheckoutPage';
 import { CartPage } from '../pages/CartPage';
 import { USERS } from '../data/users';
 import { ITEMS } from '../data/items';
-import { CHECKOUT_DATA } from '../data/checkout.data';
 
-test('Saucedemo Checkout Validation - Last Name Required ', async ({ page }) => {
+let loginPage: LoginPage;
+let inventoryPage: InventoryPage;
 
-  const loginPage = new LoginPage(page);
+test.beforeEach(async ({ page }) => {
+  loginPage = new LoginPage(page);
   const username = USERS.standard.username;
   const password = USERS.standard.password;
 
   await loginPage.navigateTo();
   await loginPage.login(username, password);
-  const inventoryPage = new InventoryPage(page);
+
+  inventoryPage = new InventoryPage(page);
   await inventoryPage.expectInventoryLoaded();
-  await inventoryPage.addItemToCart(ITEMS.backpack);
+})
+
+test('Checkout Full Flow', async ({ page }) => {
+  await inventoryPage.addItemToCart(ITEMS.jacket);
   await inventoryPage.openCart();
 
   const cartPage = new CartPage(page);
-  await cartPage.expectItemInCart(ITEMS.backpack);
+  await cartPage.expectItemInCart(ITEMS.jacket);
   await cartPage.clickCheckout();
 
   const checkoutPage = new CheckoutPage(page);
-  await checkoutPage.fillInformation(CHECKOUT_DATA.firstName, "", CHECKOUT_DATA.zipCode);
-
-  await checkoutPage.expectLastNameRequiredError();
+  const firstName = "Tina" + Date.now();
+  const lastName = "Sun" + Date.now();
+  const zipCode = "" + Date.now();
+  await checkoutPage.fillInformation(firstName, lastName, zipCode);
+  await checkoutPage.clickFinish();
+  await checkoutPage.expectSuccessful();
 });
 
 
