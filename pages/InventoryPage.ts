@@ -4,6 +4,7 @@ export class InventoryPage {
     private readonly cartButton: Locator;
     private readonly burgMenu: Locator;
     private readonly logoutButton: Locator;
+    private readonly cartBadge: Locator;
 
     private readonly page: Page;
 
@@ -11,6 +12,7 @@ export class InventoryPage {
         this.cartButton = page.locator('a.shopping_cart_link');
         this.burgMenu = page.getByRole('button', { name: 'Open Menu' });
         this.logoutButton = page.getByRole('link', { name: 'Logout' })
+        this.cartBadge = page.locator('.shopping_cart_badge');
         this.page = page;
     }
 
@@ -19,16 +21,25 @@ export class InventoryPage {
             .getByRole("button", { name: "Add to cart" }).click();
     }
 
+    async removeItemFromCart(itemName: string) {
+        await this.page.locator(".inventory_item", { hasText: itemName })
+            .getByRole('button', { name: 'Remove' }).click();
+    }
+
     async openCart() {
         await this.cartButton.click();
     }
 
-    async logout(){
+    async logout() {
         await this.burgMenu.click();
         await this.logoutButton.click();
     }
 
     async expectInventoryLoaded() {
         await expect(this.page.locator('.inventory_container')).toBeVisible();
+    }
+
+    async expectCartBadgeCount(count:number) {
+        await expect(this.cartBadge).toHaveText(String(count));
     }
 }
