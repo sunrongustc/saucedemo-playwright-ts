@@ -10,13 +10,8 @@ type loginFixture = {
 
 export const test = base.extend<loginFixture>({
     inventoryPage: async ({ page }, use) => {
-        const loginPage = new LoginPage(page);
-        const inventoryPage = new InventoryPage(page);
-
-        await loginPage.navigateTo();
-        await loginPage.login(USERS.standard.username, USERS.standard.password);
-        await inventoryPage.expectInventoryLoaded();
-        await use(inventoryPage);
+        await page.goto('/inventory.html')
+        await use(new InventoryPage(page));
     }
 }
 )
