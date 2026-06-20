@@ -3,25 +3,22 @@ import { CartPage } from '../pages/CartPage';
 import { ITEMS } from '../data/items';
 
 test('One Item Added To Cart', async ({ inventoryPage, page }) => {
-    const item1 = "Sauce Labs Bolt T-Shirt"
-    await inventoryPage.addItemToCart(item1);
+    await inventoryPage.addItemToCart(ITEMS.jacket);
     await inventoryPage.openCart()
 
     const cartPage = new CartPage(page);
-    await cartPage.expectItemInCart(item1);
+    await cartPage.expectItemInCart(ITEMS.jacket);
 });
 
 
 test('One Item Removed From Cart', async ({ inventoryPage, page }) => {
-    const item1 = "Sauce Labs Bolt T-Shirt"
-    await inventoryPage.addItemToCart(item1);
+    await inventoryPage.addItemToCart(ITEMS.jacket);
     await inventoryPage.openCart()
 
     const cartPage = new CartPage(page);
-    await cartPage.expectItemInCart(item1);
-    await cartPage.removeItemFromCart(item1);
-    await cartPage.expectItemRemoved(item1);
-
+    await cartPage.expectItemInCart(ITEMS.jacket);
+    await cartPage.removeItemFromCart(ITEMS.jacket);
+    await cartPage.expectItemRemoved(ITEMS.jacket);
 });
 
 
@@ -43,5 +40,14 @@ test('Multiple Items Cart Management Flow', async ({ inventoryPage, page }) => {
     for (const item of remainItems) {
         await cartPage.expectItemInCart(item);
     }
+});
+
+test('Cart Badge Reflects Correct Item Counts ', async ({ inventoryPage, page }) => {
+    await inventoryPage.addItemToCart(ITEMS.light);
+    await inventoryPage.expectCartBadgeCount(1);
+    await inventoryPage.addItemToCart(ITEMS.backpack);
+    await inventoryPage.expectCartBadgeCount(2);
+    await inventoryPage.removeItemFromCart(ITEMS.light);
+    await inventoryPage.expectCartBadgeCount(1);
 });
 
