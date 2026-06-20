@@ -5,6 +5,7 @@ export class InventoryPage {
     private readonly burgMenu: Locator;
     private readonly logoutButton: Locator;
     private readonly cartBadge: Locator;
+    private readonly sortBox: Locator;
 
     private readonly page: Page;
 
@@ -13,6 +14,7 @@ export class InventoryPage {
         this.burgMenu = page.getByRole('button', { name: 'Open Menu' });
         this.logoutButton = page.getByRole('link', { name: 'Logout' })
         this.cartBadge = page.locator('.shopping_cart_badge');
+        this.sortBox = page.getByRole('combobox');
         this.page = page;
     }
 
@@ -39,7 +41,22 @@ export class InventoryPage {
         await expect(this.page.locator('.inventory_container')).toBeVisible();
     }
 
-    async expectCartBadgeCount(count:number) {
+    async expectCartBadgeCount(count: number) {
         await expect(this.cartBadge).toHaveText(String(count));
     }
+
+    async selectSortPattern(pattern: string) {
+        await this.sortBox.selectOption(pattern);
+    }
+
+    async getPriceArray(): Promise<number[]> {
+        const itemTitleArray = await this.page.locator('.inventory_item_price').allTextContents();
+        return itemTitleArray.map(item =>
+            Number(item.replace("$", "")));
+    }
+
+    async getTitleArray(): Promise<string[]> {
+        return await this.page.locator('.inventory_item_name').allTextContents();
+    }
+
 }
