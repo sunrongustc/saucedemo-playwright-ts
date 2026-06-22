@@ -9,6 +9,7 @@
 - Fixtures
 - Storage State
 - Data Driven Tests
+- CI/CD via Github Actions
 
 ## Test Coverage
 - Auth (login & logout)
