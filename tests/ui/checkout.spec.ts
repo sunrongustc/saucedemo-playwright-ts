@@ -6,7 +6,7 @@ import { CHECKOUT_DATA } from "../../data/checkout.data";
 import { CheckoutFlow } from "../../flows/CheckoutFlow";
 
 
-test('Checkout Full Flow', async ({ inventoryPage, page }) => {
+test('@smoke @regression Checkout Full Flow', async ({ inventoryPage, page }) => {
   const checkoutPage = new CheckoutPage(page);
   const checkoutFlow = new CheckoutFlow(inventoryPage, new CartPage(page), checkoutPage);
   await checkoutFlow.startCheckout(ITEMS.backpack, CHECKOUT_DATA)
@@ -15,7 +15,7 @@ test('Checkout Full Flow', async ({ inventoryPage, page }) => {
 });
 
 
-test('Checkout Validation - First Name Required ', async ({ inventoryPage, page }) => {
+test('@negative Checkout Validation - First Name Required ', async ({ inventoryPage, page }) => {
   const checkoutPage = new CheckoutPage(page);
   const checkoutFlow = new CheckoutFlow(inventoryPage, new CartPage(page), checkoutPage);
   const newData = { ...CHECKOUT_DATA, firstName: "" };
@@ -24,7 +24,7 @@ test('Checkout Validation - First Name Required ', async ({ inventoryPage, page 
 });
 
 
-test('Checkout Validation - Last Name Required ', async ({ inventoryPage, page }) => {
+test('@negative Checkout Validation - Last Name Required ', async ({ inventoryPage, page }) => {
   const checkoutPage = new CheckoutPage(page);
   const checkoutFlow = new CheckoutFlow(inventoryPage, new CartPage(page), checkoutPage);
   const newData = { ...CHECKOUT_DATA, lastName: "" };
@@ -33,7 +33,7 @@ test('Checkout Validation - Last Name Required ', async ({ inventoryPage, page }
 });
 
 
-test('Checkout Validation - Zip Code Required ', async ({ inventoryPage, page }) => {
+test('@negative Checkout Validation - Zip Code Required ', async ({ inventoryPage, page }) => {
   const checkoutPage = new CheckoutPage(page);
   const checkoutFlow = new CheckoutFlow(inventoryPage, new CartPage(page), checkoutPage);
   const newData = { ...CHECKOUT_DATA, zipCode: "" };

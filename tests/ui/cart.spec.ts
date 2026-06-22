@@ -2,7 +2,7 @@ import { test, expect } from "../../fixtures/inventory.fixture";
 import { CartPage } from '../../pages/CartPage';
 import { ITEMS } from '../../data/items';
 
-test('One Item Added To Cart', async ({ inventoryPage, page }) => {
+test('@smoke @regression One Item Added To Cart', async ({ inventoryPage, page }) => {
     await inventoryPage.addItemToCart(ITEMS.jacket);
     await inventoryPage.openCart()
 
@@ -11,7 +11,7 @@ test('One Item Added To Cart', async ({ inventoryPage, page }) => {
 });
 
 
-test('One Item Removed From Cart', async ({ inventoryPage, page }) => {
+test('@regression One Item Removed From Cart', async ({ inventoryPage, page }) => {
     await inventoryPage.addItemToCart(ITEMS.jacket);
     await inventoryPage.openCart()
 
@@ -22,7 +22,7 @@ test('One Item Removed From Cart', async ({ inventoryPage, page }) => {
 });
 
 
-test('Multiple Items Cart Management Flow', async ({ inventoryPage, page }) => {
+test('@regression Multiple Items Cart Management Flow', async ({ inventoryPage, page }) => {
     for (const item of Object.values(ITEMS)) {
         await inventoryPage.addItemToCart(item);
     }
@@ -42,7 +42,8 @@ test('Multiple Items Cart Management Flow', async ({ inventoryPage, page }) => {
     }
 });
 
-test('Cart Badge Reflects Correct Item Counts ', async ({ inventoryPage, page }) => {
+
+test('@regression Cart Badge Reflects Correct Item Counts ', async ({ inventoryPage, page }) => {
     await inventoryPage.addItemToCart(ITEMS.light);
     await inventoryPage.expectCartBadgeCount(1);
     await inventoryPage.addItemToCart(ITEMS.backpack);

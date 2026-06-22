@@ -3,13 +3,13 @@ import { LoginPage } from '../../pages/LoginPage';
 import { USERS } from '../../data/users';
 import { InventoryPage } from '../../pages/InventoryPage';
 
-test('Logout', async ({ inventoryPage, page }) => {
+test('@smoke @regression Logout', async ({ inventoryPage, page }) => {
   await inventoryPage.logout();
   const loginPage = new LoginPage(page);
   await loginPage.expectLoaded();
 });
 
-test('Locked User Login', async ({ page }) => {
+test('@negative Locked User Login', async ({ page }) => {
   const loginPage = new LoginPage(page);
 
   const username = USERS.locked.username;
