@@ -4,13 +4,13 @@ export class LoginPage {
     private readonly usernameInput: Locator;
     private readonly passwordInput: Locator;
     private readonly loginButton: Locator;
-    private readonly page: Page;
+    private readonly errorMessage: Locator;
 
-    constructor(page: Page) {
+    constructor(private readonly page: Page) {
         this.usernameInput = page.getByRole('textbox', { name: 'Username' });
         this.passwordInput = page.getByRole('textbox', { name: 'Password' });
         this.loginButton = page.getByRole('button', { name: 'Login' });
-        this.page = page;
+        this.errorMessage = page.locator('[data-test="error"]');
     }
 
     async navigateTo() {
@@ -23,11 +23,11 @@ export class LoginPage {
         await this.loginButton.click();
     }
 
-    async expectUserLocked() {
-        await expect(this.page.locator('[data-test="error"]')).toContainText("locked out");
+    async expectLockedUserError() {
+        await expect(this.errorMessage).toContainText("locked out");
     }
 
-    async expectLoaded() {
+    async expectLoginPageLoaded() {
         await expect(this.loginButton).toBeVisible();
     }
 }

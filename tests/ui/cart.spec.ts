@@ -5,20 +5,20 @@ import { ITEMS } from '../../data/items';
 test.describe("Shopping Cart", () => {
     test('@smoke @regression One Item Added To Cart', async ({ inventoryPage, page }) => {
         await inventoryPage.addItemToCart(ITEMS.jacket);
-        await inventoryPage.openCart()
+        await inventoryPage.goToCart()
 
         const cartPage = new CartPage(page);
-        await cartPage.expectItemInCart(ITEMS.jacket);
+        await cartPage.expectItemVisible(ITEMS.jacket);
     });
 
 
     test('@regression One Item Removed From Cart', async ({ inventoryPage, page }) => {
         await inventoryPage.addItemToCart(ITEMS.jacket);
-        await inventoryPage.openCart()
+        await inventoryPage.goToCart()
 
         const cartPage = new CartPage(page);
-        await cartPage.expectItemInCart(ITEMS.jacket);
-        await cartPage.removeItemFromCart(ITEMS.jacket);
+        await cartPage.expectItemVisible(ITEMS.jacket);
+        await cartPage.removeItem(ITEMS.jacket);
         await cartPage.expectItemRemoved(ITEMS.jacket);
     });
 
@@ -27,29 +27,29 @@ test.describe("Shopping Cart", () => {
         for (const item of Object.values(ITEMS)) {
             await inventoryPage.addItemToCart(item);
         }
-        await inventoryPage.openCart()
+        await inventoryPage.goToCart()
 
         const cartPage = new CartPage(page);
         for (const item of Object.values(ITEMS)) {
-            await cartPage.expectItemInCart(item);
+            await cartPage.expectItemVisible(item);
         }
 
-        await cartPage.removeItemFromCart(ITEMS.backpack);
+        await cartPage.removeItem(ITEMS.backpack);
         await cartPage.expectItemRemoved(ITEMS.backpack);
 
         const remainItems = Object.values(ITEMS).filter(item => item !== ITEMS.backpack)
         for (const item of remainItems) {
-            await cartPage.expectItemInCart(item);
+            await cartPage.expectItemVisible(item);
         }
     });
 
 
     test('@regression Cart Badge Reflects Correct Item Counts ', async ({ inventoryPage, page }) => {
         await inventoryPage.addItemToCart(ITEMS.light);
-        await inventoryPage.expectCartBadgeCount(1);
+        await inventoryPage.expectCartCount(1);
         await inventoryPage.addItemToCart(ITEMS.backpack);
-        await inventoryPage.expectCartBadgeCount(2);
+        await inventoryPage.expectCartCount(2);
         await inventoryPage.removeItemFromCart(ITEMS.light);
-        await inventoryPage.expectCartBadgeCount(1);
+        await inventoryPage.expectCartCount(1);
     });
 })

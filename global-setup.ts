@@ -16,7 +16,7 @@ export default async () => {
     );
 
     const inventoryPage = new InventoryPage(page);
-    await inventoryPage.expectInventoryLoaded()
+    await inventoryPage.expectInventoryPageLoaded()
 
     await page.context().storageState({
         path: "storageState/auth.json",

@@ -10,10 +10,10 @@ export class CheckoutFlow {
 
     async startCheckout(item: string, data: typeof CHECKOUT_DATA) {
         await this.inventoryPage.addItemToCart(item);
-        await this.inventoryPage.openCart();
+        await this.inventoryPage.goToCart();
 
-        await this.cartPage.expectItemInCart(item);
-        await this.cartPage.clickCheckout();
+        await this.cartPage.expectItemVisible(item);
+        await this.cartPage.checkout();
 
         await this.checkoutPage.fillInformation(data.firstName, data.lastName, data.zipCode);
     }

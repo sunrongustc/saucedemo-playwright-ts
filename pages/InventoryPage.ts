@@ -1,47 +1,45 @@
 import { Locator, Page, expect } from "@playwright/test";
 
 export class InventoryPage {
-    private readonly cartButton: Locator;
+    private readonly cartLink: Locator;
     private readonly burgMenu: Locator;
     private readonly logoutButton: Locator;
     private readonly cartBadge: Locator;
     private readonly sortBox: Locator;
 
-    private readonly page: Page;
-
-    constructor(page: Page) {
-        this.cartButton = page.locator('a.shopping_cart_link');
+    constructor(private readonly page: Page) {
+        this.cartLink = page.locator('[data-test="shopping-cart-link"]');
         this.burgMenu = page.getByRole('button', { name: 'Open Menu' });
         this.logoutButton = page.getByRole('link', { name: 'Logout' })
-        this.cartBadge = page.locator('.shopping_cart_badge');
+        this.cartBadge = page.locator('[data-test="shopping-cart-badge"]');
         this.sortBox = page.getByRole('combobox');
-        this.page = page;
     }
 
     async addItemToCart(itemName: string) {
-        await this.page.locator(".inventory_item", { hasText: itemName })
+        await this.page.locator('[data-test="inventory-item"]', { hasText: itemName })
             .getByRole("button", { name: "Add to cart" }).click();
     }
 
     async removeItemFromCart(itemName: string) {
-        await this.page.locator(".inventory_item", { hasText: itemName })
+        await this.page.locator('[data-test="inventory-item"]', { hasText: itemName })
             .getByRole('button', { name: 'Remove' }).click();
     }
 
-    async openCart() {
-        await this.cartButton.click();
+    async goToCart() {
+        await this.cartLink.click();
     }
 
     async logout() {
         await this.burgMenu.click();
+        await this.logoutButton.waitFor({ state: 'visible' });
         await this.logoutButton.click();
     }
 
-    async expectInventoryLoaded() {
-        await expect(this.page.locator('.inventory_container')).toBeVisible();
+    async expectInventoryPageLoaded() {
+        await expect(this.page.locator('[data-test="inventory-container"]')).toBeVisible();
     }
 
-    async expectCartBadgeCount(count: number) {
+    async expectCartCount(count: number) {
         await expect(this.cartBadge).toHaveText(String(count));
     }
 
@@ -49,14 +47,14 @@ export class InventoryPage {
         await this.sortBox.selectOption(pattern);
     }
 
-    async getPriceArray(): Promise<number[]> {
-        const itemTitleArray = await this.page.locator('.inventory_item_price').allTextContents();
+    async getPrices(): Promise<number[]> {
+        const itemTitleArray = await this.page.locator('[data-test="inventory-item-price"]').allTextContents();
         return itemTitleArray.map(item =>
             Number(item.replace("$", "")));
     }
 
-    async getTitleArray(): Promise<string[]> {
-        return await this.page.locator('.inventory_item_name').allTextContents();
+    async getTitles(): Promise<string[]> {
+        return await this.page.locator('[data-test="inventory-item-name"]').allTextContents();
     }
 
 }

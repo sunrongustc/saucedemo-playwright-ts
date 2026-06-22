@@ -8,19 +8,19 @@ test.describe("Authentication", () => {
   test('@smoke @regression Logout', async ({ inventoryPage, page }) => {
     await inventoryPage.logout();
     const loginPage = new LoginPage(page);
-    await loginPage.expectLoaded();
+    await loginPage.expectLoginPageLoaded();
   });
 
   test('@negative Locked User Login', async ({ page }) => {
     const loginPage = new LoginPage(page);
     await loginPage.navigateTo();
     await loginPage.login(USERS.locked.username, USERS.locked.password);
-    await loginPage.expectUserLocked();
+    await loginPage.expectLockedUserError();
   });
 
   test('@smoke @regression Auth state is reused', async ({ page }) => {
     await page.goto('/inventory.html');
-    await new InventoryPage(page).expectInventoryLoaded();
+    await new InventoryPage(page).expectInventoryPageLoaded();
   });
 
 })

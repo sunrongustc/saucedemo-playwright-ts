@@ -12,7 +12,7 @@ test.describe("Checkout", () => {
     const checkoutFlow = new CheckoutFlow(inventoryPage, new CartPage(page), checkoutPage);
     await checkoutFlow.startCheckout(ITEMS.backpack, CHECKOUT_DATA)
     await checkoutPage.clickFinish();
-    await checkoutPage.expectSuccessful();
+    await checkoutPage.expectThankYouPage();
   });
 
 

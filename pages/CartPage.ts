@@ -2,26 +2,28 @@ import { Locator, Page, expect } from "@playwright/test";
 
 export class CartPage {
     private readonly checkoutButton: Locator;
-    private readonly page: Page;
 
-    constructor(page: Page) {
+    constructor(private readonly page: Page) {
         this.checkoutButton = page.getByRole('button', { name: 'Checkout' })
-        this.page = page;
+    }
+    
+    private cartItem(itemName: string) {
+        return this.page.locator('[data-test="inventory-item"]', { hasText: itemName });
     }
 
-    async expectItemInCart(itemName: string) {
-        await expect(this.page.locator('.cart_item', { hasText: itemName })).toBeVisible();
-    }
-
-    async clickCheckout() {
+    async checkout() {
         await this.checkoutButton.click();
     }
-
-    async removeItemFromCart(itemName: string) {
-        await this.page.locator('.cart_item', { hasText: itemName }).getByRole('button', { name: 'Remove' }).click();
+    
+    async removeItem(itemName: string) {
+        await this.cartItem(itemName).getByRole('button', { name: 'Remove' }).click();
+    }
+    
+    async expectItemVisible(itemName: string) {
+        await expect(this.cartItem(itemName)).toBeVisible();
     }
 
     async expectItemRemoved(itemName: string) {
-        await expect(this.page.locator('.cart_item', { hasText: itemName })).toHaveCount(0);
+        await expect(this.cartItem(itemName)).toHaveCount(0);
     }
 }
