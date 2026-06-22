@@ -1,5 +1,5 @@
-import { test, expect } from "../fixtures/inventory.fixture";
-import { SORT_PATTERN } from "../data/sort.pattern";
+import { test, expect } from "../../fixtures/inventory.fixture";
+import { SORT_PATTERN } from "../../data/sort.pattern";
 
 test('Sort Items price from low to high', async ({ inventoryPage }) => {
     await inventoryPage.selectSortPattern(SORT_PATTERN.lh);

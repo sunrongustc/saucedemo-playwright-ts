@@ -1,6 +1,6 @@
-import { test, expect } from "../fixtures/inventory.fixture";
-import { CartPage } from '../pages/CartPage';
-import { ITEMS } from '../data/items';
+import { test, expect } from "../../fixtures/inventory.fixture";
+import { CartPage } from '../../pages/CartPage';
+import { ITEMS } from '../../data/items';
 
 test('One Item Added To Cart', async ({ inventoryPage, page }) => {
     await inventoryPage.addItemToCart(ITEMS.jacket);

@@ -1,7 +1,7 @@
-import { test } from "../fixtures/inventory.fixture";
-import { LoginPage } from '../pages/LoginPage';
-import { USERS } from '../data/users';
-import { InventoryPage } from '../pages/InventoryPage';
+import { test } from "../../fixtures/inventory.fixture";
+import { LoginPage } from '../../pages/LoginPage';
+import { USERS } from '../../data/users';
+import { InventoryPage } from '../../pages/InventoryPage';
 
 test('Logout', async ({ inventoryPage, page }) => {
   await inventoryPage.logout();
