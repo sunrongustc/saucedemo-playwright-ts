@@ -4,6 +4,7 @@ import { USERS } from '../../data/users';
 import { InventoryPage } from '../../pages/InventoryPage';
 
 test.describe("Authentication", () => {
+
   test('@smoke @regression Logout', async ({ inventoryPage, page }) => {
     await inventoryPage.logout();
     const loginPage = new LoginPage(page);
@@ -12,12 +13,14 @@ test.describe("Authentication", () => {
 
   test('@negative Locked User Login', async ({ page }) => {
     const loginPage = new LoginPage(page);
-
-    const username = USERS.locked.username;
-    const password = USERS.locked.password;
-
     await loginPage.navigateTo();
-    await loginPage.login(username, password);
+    await loginPage.login(USERS.locked.username, USERS.locked.password);
     await loginPage.expectUserLocked();
   });
+
+  test('@smoke @regression Auth state is reused', async ({ page }) => {
+    await page.goto('/inventory.html');
+    await new InventoryPage(page).expectInventoryLoaded();
+  });
+
 })

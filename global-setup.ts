@@ -9,7 +9,7 @@ export default async () => {
 
     const loginPage = new LoginPage(page);
 
-    await page.goto("https://www.saucedemo.com/");
+    await page.goto(process.env.BASE_URL || "https://www.saucedemo.com/");
     await loginPage.login(
         USERS.standard.username,
         USERS.standard.password

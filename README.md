@@ -3,13 +3,13 @@
 ## Tech Stack
 - Playwright
 - TypeScript
+- Github Actions
 
 ## Features
 - POM
 - Fixtures
 - Storage State
 - Data Driven Tests
-- CI/CD via Github Actions
 
 ## Test Coverage
 - Auth (login & logout)
