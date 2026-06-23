@@ -1,7 +1,6 @@
 import { test as base } from "@playwright/test";
 import { InventoryPage } from "../pages/InventoryPage";
 import { LoginPage } from "../pages/LoginPage";
-import { USERS } from "../data/users";
 
 type loginFixture = {
     loginPage: LoginPage,

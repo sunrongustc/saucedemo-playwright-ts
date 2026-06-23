@@ -3,14 +3,14 @@ import { CartPage } from '../../pages/CartPage';
 import { ITEMS } from '../../data/items';
 
 test.describe("Shopping Cart", () => {
+
     test('@smoke @regression One Item Added To Cart', async ({ inventoryPage, page }) => {
         await inventoryPage.addItemToCart(ITEMS.jacket);
+        await inventoryPage.expectCartCount(1);
         await inventoryPage.goToCart()
-
         const cartPage = new CartPage(page);
         await cartPage.expectItemVisible(ITEMS.jacket);
     });
-
 
     test('@regression One Item Removed From Cart', async ({ inventoryPage, page }) => {
         await inventoryPage.addItemToCart(ITEMS.jacket);
@@ -22,12 +22,12 @@ test.describe("Shopping Cart", () => {
         await cartPage.expectItemRemoved(ITEMS.jacket);
     });
 
-
     test('@regression Multiple Items Cart Management Flow', async ({ inventoryPage, page }) => {
         for (const item of Object.values(ITEMS)) {
             await inventoryPage.addItemToCart(item);
         }
-        await inventoryPage.goToCart()
+        await inventoryPage.goToCart();
+        await inventoryPage.expectCartCount(Object.values(ITEMS).length);
 
         const cartPage = new CartPage(page);
         for (const item of Object.values(ITEMS)) {
@@ -42,7 +42,6 @@ test.describe("Shopping Cart", () => {
             await cartPage.expectItemVisible(item);
         }
     });
-
 
     test('@regression Cart Badge Reflects Correct Item Counts ', async ({ inventoryPage, page }) => {
         await inventoryPage.addItemToCart(ITEMS.light);
