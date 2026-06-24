@@ -24,6 +24,7 @@ export class CartPage {
     }
 
     async expectItemRemoved(itemName: string) {
+        //toHaveCount(0) verifies the item is removed from DOM,not just hidden
         await expect(this.cartItem(itemName)).toHaveCount(0);
     }
 }

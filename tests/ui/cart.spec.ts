@@ -8,6 +8,7 @@ test.describe("Shopping Cart", () => {
         await inventoryPage.addItemToCart(ITEMS.jacket);
         await inventoryPage.expectCartCount(1);
         await inventoryPage.goToCart()
+
         const cartPage = new CartPage(page);
         await cartPage.expectItemVisible(ITEMS.jacket);
     });
@@ -23,6 +24,7 @@ test.describe("Shopping Cart", () => {
     });
 
     test('@regression Multiple Items Cart Management Flow', async ({ inventoryPage, page }) => {
+        // Add items automatically to avoid hardcoding 
         for (const item of Object.values(ITEMS)) {
             await inventoryPage.addItemToCart(item);
         }
@@ -46,8 +48,10 @@ test.describe("Shopping Cart", () => {
     test('@regression Cart Badge Reflects Correct Item Counts ', async ({ inventoryPage, page }) => {
         await inventoryPage.addItemToCart(ITEMS.light);
         await inventoryPage.expectCartCount(1);
+
         await inventoryPage.addItemToCart(ITEMS.backpack);
         await inventoryPage.expectCartCount(2);
+        
         await inventoryPage.removeItemFromCart(ITEMS.light);
         await inventoryPage.expectCartCount(1);
     });

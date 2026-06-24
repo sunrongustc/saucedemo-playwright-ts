@@ -16,7 +16,7 @@ test.describe("Checkout", () => {
   });
 
 
-  test('@negative Checkout Validation - First Name Required ', async ({ inventoryPage, page }) => {
+  test('@negative @regression Checkout Validation - First Name Required ', async ({ inventoryPage, page }) => {
     const checkoutPage = new CheckoutPage(page);
     const checkoutFlow = new CheckoutFlow(inventoryPage, new CartPage(page), checkoutPage);
     const newData = { ...CHECKOUT_DATA, firstName: "" };
@@ -25,7 +25,7 @@ test.describe("Checkout", () => {
   });
 
 
-  test('@negative Checkout Validation - Last Name Required ', async ({ inventoryPage, page }) => {
+  test('@negative @regression Checkout Validation - Last Name Required ', async ({ inventoryPage, page }) => {
     const checkoutPage = new CheckoutPage(page);
     const checkoutFlow = new CheckoutFlow(inventoryPage, new CartPage(page), checkoutPage);
     const newData = { ...CHECKOUT_DATA, lastName: "" };
@@ -34,7 +34,7 @@ test.describe("Checkout", () => {
   });
 
 
-  test('@negative Checkout Validation - Zip Code Required ', async ({ inventoryPage, page }) => {
+  test('@negative @regression Checkout Validation - Zip Code Required ', async ({ inventoryPage, page }) => {
     const checkoutPage = new CheckoutPage(page);
     const checkoutFlow = new CheckoutFlow(inventoryPage, new CartPage(page), checkoutPage);
     const newData = { ...CHECKOUT_DATA, zipCode: "" };

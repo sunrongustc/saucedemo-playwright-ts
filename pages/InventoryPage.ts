@@ -16,6 +16,7 @@ export class InventoryPage {
     }
 
     async addItemToCart(itemName: string) {
+        //Locate the item container first and then locate the button within it
         await this.page.locator('[data-test="inventory-item"]', { hasText: itemName })
             .getByRole("button", { name: "Add to cart" }).click();
     }
@@ -27,16 +28,6 @@ export class InventoryPage {
 
     async goToCart() {
         await this.cartLink.click();
-    }
-
-    async logout() {
-        await this.burgMenu.click();
-        await this.logoutButton.waitFor({ state: 'visible' });
-        await this.logoutButton.click();
-    }
-
-    async expectInventoryPageLoaded() {
-        await expect(this.page.locator('[data-test="inventory-container"]')).toBeVisible();
     }
 
     async expectCartCount(count: number) {
@@ -55,6 +46,17 @@ export class InventoryPage {
 
     async getTitles(): Promise<string[]> {
         return await this.page.locator('[data-test="inventory-item-name"]').allTextContents();
+    }
+
+    async expectInventoryPageLoaded() {
+        await expect(this.page.locator('[data-test="inventory-container"]')).toBeVisible();
+    }
+
+    async logout() {
+        await this.burgMenu.click();
+        //Wait for logout button after menu animation
+        await this.logoutButton.waitFor({ state: 'visible' });
+        await this.logoutButton.click();
     }
 
 }

@@ -1,14 +1,18 @@
-import { CHECKOUT_DATA } from "../data/checkout.data";
 import { CartPage } from "../pages/CartPage";
 import { CheckoutPage } from "../pages/CheckoutPage";
 import { InventoryPage } from "../pages/InventoryPage";
 
+interface CheckoutData {
+    firstName: string;
+    lastName: string;
+    zipCode: string;
+}
 
 export class CheckoutFlow {
     constructor(
         private inventoryPage: InventoryPage, private cartPage: CartPage, private checkoutPage: CheckoutPage) { }
 
-    async startCheckout(item: string, data: typeof CHECKOUT_DATA) {
+    async startCheckout(item: string, data: CheckoutData) {
         await this.inventoryPage.addItemToCart(item);
         await this.inventoryPage.goToCart();
 

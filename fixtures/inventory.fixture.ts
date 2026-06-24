@@ -1,13 +1,8 @@
 import { test as base } from "@playwright/test";
 import { InventoryPage } from "../pages/InventoryPage";
-import { LoginPage } from "../pages/LoginPage";
 
-type loginFixture = {
-    loginPage: LoginPage,
-    inventoryPage: InventoryPage
-}
 
-export const test = base.extend<loginFixture>({
+export const test = base.extend<{inventoryPage: InventoryPage}>({
     inventoryPage: async ({ page }, use) => {
         await page.goto('/inventory.html')
         await use(new InventoryPage(page));

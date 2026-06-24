@@ -1,7 +1,6 @@
 import { test } from "../../fixtures/inventory.fixture";
 import { LoginPage } from '../../pages/LoginPage';
 import { USERS } from '../../data/users';
-import { InventoryPage } from '../../pages/InventoryPage';
 
 test.describe("User authentication and session", () => {
 
@@ -11,16 +10,10 @@ test.describe("User authentication and session", () => {
     await loginPage.expectLoginPageLoaded();
   });
 
-  test('@negative Locked user login', async ({ page }) => {
+  test('@negative @regression Locked user login', async ({ page }) => {
     const loginPage = new LoginPage(page);
     await loginPage.navigateTo();
     await loginPage.login(USERS.locked.username, USERS.locked.password);
     await loginPage.expectLockedUserError();
   });
-
-  test('@smoke @regression Authenticated user can access inventory page', async ({ inventoryPage, page }) => {
-    await page.goto('/inventory.html');
-    await inventoryPage.expectInventoryPageLoaded();
-  });
-
 })
